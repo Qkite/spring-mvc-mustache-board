@@ -1,0 +1,45 @@
+{{>layouts/header}}
+
+<div>
+    <h2>글 목록</h2>
+    <br><br>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">id</th>
+                <th scope="col">title</th>
+                <th scope="col">content</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#articles}}
+                <tr>
+                    <th scope="row"> {{id}} </th>
+
+                    {{#title}}
+                        <td> {{title}} </td>
+                    {{/title}}
+                    {{^title}}
+                        <td> 제목이 없습니다 </td>
+                    {{/title}}
+
+                    {{#content}}
+                        <td> {{content}} </td>
+                    {{/content}}
+                    {{^content}}
+                        <td> 내용이 없습니다. </td>
+                    {{/content}}
+                </tr>
+
+            {{/articles}}
+
+            <a href="/articles/new">new article</a>
+            <a href="/articles">list article</a>
+
+        </tbody>
+    </table>
+
+</div>
+
+{{>layouts/footer}}

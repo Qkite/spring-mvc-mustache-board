@@ -1,0 +1,29 @@
+{{>layouts/header}}
+
+    <div class = "card" style="width: 18rem;">
+        <br>
+        {{#article}}
+            <div class="card-body">
+                {{#title}}
+                    <h5 class="card-title">제목: {{title}}</h5>
+                {{/title}}
+                {{^title}}
+                    <h5 class="card-title">제목이 없습니다.</h5>
+                {{/title}}
+
+                {{#content}}
+                    <h6 class="card-subtitle mb-2 text-muted">{{content}}</h6>
+                {{/content}}
+                {{^content}}
+                    <h6 class="card-subtitle mb-2 text-muted">내용이 없습니다.</h6>
+                {{/content}}
+
+                <a href="/articles/new" class="card-link">new article</a>
+                <a href="/articles" class="card-link">list article</a>
+
+            </div>
+        {{/article}}
+
+    </div>
+
+{{>layouts/footer}}
