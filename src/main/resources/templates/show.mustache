@@ -1,8 +1,7 @@
 {{>layouts/header}}
-
+{{#article}}
     <div class = "card" style="width: 18rem;">
         <br>
-        {{#article}}
             <div class="card-body">
                 {{#title}}
                     <h5 class="card-title">제목: {{title}}</h5>
@@ -22,8 +21,10 @@
                 <a href="/articles" class="card-link">list article</a>
 
             </div>
-        {{/article}}
 
     </div>
+    <a href = "/articles/{{id}}/edit" class="btn btn-primary">Edit</a>
+    <a href = "/articles/{{id}}/delete" class="btn btn-danger">Delete</a>
+{{/article}}
 
 {{>layouts/footer}}

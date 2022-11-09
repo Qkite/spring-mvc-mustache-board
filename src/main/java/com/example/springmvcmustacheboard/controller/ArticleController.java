@@ -6,10 +6,7 @@ import com.example.springmvcmustacheboard.repository.ArticleRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -48,6 +45,20 @@ public class ArticleController {
         }
     }
 
+    @GetMapping(value="/{id}/edit")
+    public String edit(@PathVariable Long id, Model model){
+        Optional<Article> articleOptional = articleRepository.findById(id);
+
+        if (!articleOptional.isEmpty()) {
+            model.addAttribute("article", articleOptional.get());
+            // addAttribute를 해주지 않으면 결과를 view로 보여줄 수 없음
+            return "edit";
+        } else {
+            model.addAttribute("message", String.format("%d 가 없습니다.", id));
+            return "error";
+        }
+    }
+
     @GetMapping(value = "/list")
     public String list(Model model){
         List<Article> articleList = articleRepository.findAll();
@@ -61,13 +72,31 @@ public class ArticleController {
         return "redirect:/articles/list";
     }
 
+    @GetMapping(value = "/{id}/delete")
+    public String edit(@PathVariable Long id){
+        articleRepository.deleteById(id);
+
+        return "redirect:/articles";
+    }
+
 
     @PostMapping(value = "")
-    public String add(ArticleDto articleDto){
+    public String add(@ModelAttribute ArticleDto articleDto){
         log.info(articleDto.getTitle(), articleDto.getContent());
         Article savedArticle = articleRepository.save(articleDto.toEntity());
         log.info("generated:{}", savedArticle.getId());
         return String.format("redirect:/articles/%d", savedArticle.getId());
+    }
+
+    @PostMapping(value="/{id}/update")
+    public String update(@PathVariable Long id, @ModelAttribute ArticleDto articleDto, Model model){
+        log.info("id: {}, title: {}, content: {}", String.valueOf(articleDto.getId()), articleDto.getTitle(), articleDto.getContent());
+
+        Article article = articleRepository.save(articleDto.toEntity(id));
+        model.addAttribute("article", article);
+
+        return String.format("redirect:/articles/%d", article.getId());
+
     }
 
 }
